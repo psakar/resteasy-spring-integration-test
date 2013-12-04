@@ -40,7 +40,7 @@
 		<maven-repo-as>maven-repo-as</maven-repo-as>
 		<as.distribution.groupId>org.jboss.as</as.distribution.groupId>
 		<as.distribution.artifactId>jboss-as-dist</as.distribution.artifactId>
-		<as.distribution.version>7.3.0.Final-redhat-10</as.distribution.version>
+		<as.distribution.version>7.3.0.Final-redhat-14</as.distribution.version>
 
 		<as.version.major-minor>6.2</as.version.major-minor>
 
