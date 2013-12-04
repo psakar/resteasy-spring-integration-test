@@ -77,6 +77,8 @@ public class LocatingResource {
    * This is a utility class for getting raw objects that may have been proxied.
    * It is intended to be used in cases where raw implementations are needed rather
    * than working with interfaces which they implement.
+   * see http://forum.spring.io/forum/spring-projects/aop/52011-need-to-unwrap-a-proxy-to-get-the-object-being-proxied
+   * see http://jira.codehaus.org/browse/XFIRE-218
    */
   public final class AspectUtils {
 
@@ -88,11 +90,12 @@ public class LocatingResource {
        */
       if (AopUtils.isAopProxy(bean) && bean instanceof Advised) {
 
-        Advised advised = (Advised) bean;
-
-        bean = advised.getTargetSource().getTarget();
+        return ((Advised) bean).getTargetSource().getTarget();
       }
 
+   /* FIXME if (AopUtils.isJdkDynamicProxy(bean)) {
+        return ?
+      */
       return bean;
     }
 
