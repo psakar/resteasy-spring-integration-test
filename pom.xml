@@ -146,7 +146,7 @@
 						<id>surefire-it</id>
 						<phase>integration-test</phase>
 						<goals>
-							<goal>test</goal>
+							<goal>integration-test</goal>
 						</goals>
 						<configuration>
 							<skip>false</skip>
