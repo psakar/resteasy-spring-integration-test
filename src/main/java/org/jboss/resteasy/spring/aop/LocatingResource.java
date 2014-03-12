@@ -61,13 +61,15 @@ public class LocatingResource {
 
   @Path(TEST_CGLIB_PROXY_PATH)
   public TestService testCGLIB() {
-    System.out.println("LOCATING CGLIB proxy service ... " + cglibProxyService.test("cglib"));
+    String annotations = getAnnotations(cglibProxyService);
+    System.out.println("LOCATING service ... service result: " + cglibProxyService.test("cglib") + " service class " + cglibProxyService.getClass().getName() + " service annotations " + annotations);
     return cglibProxyService;
   }
 
   @Path(TEST_JDK_PROXY_PATH)
   public TestService testJdk() {
-    System.out.println("LOCATING Jdk proxy service ... " + jdkProxyService.test("jdk"));
+    String annotations = getAnnotations(jdkProxyService);
+    System.out.println("LOCATING service ... service result: " + jdkProxyService.test("jdk") + " service class " + jdkProxyService.getClass().getName() + " service annotations " + annotations);
     return jdkProxyService;
   }
 

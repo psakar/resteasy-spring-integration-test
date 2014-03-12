@@ -17,7 +17,7 @@ run
   
 example
 
-  mvn -Djboss-eap-maven-repository -Dmaven-repo-as=/home/JBEAP-6.2.0.ER7-maven-repo-as/ -Djboss.home=/home/JBEAP-6.2.0.ER7/jboss-eap-6.2 -Dversions.org.jboss.resteasy=2.3.7.Final-redhat-2 clean verify
+  mvn -Djboss-eap-maven-repository -Dmaven-repo-as=/home/JBEAP-6.2.0.ER7-maven-repo-as/ -Djboss.home=/home/JBEAP-6.2.0.ER7/jboss-eap-6.2 -Dversion.org.jboss.resteasy=2.3.7.Final-redhat-2 clean verify
 
 to run test on application server which is running add
 
@@ -26,14 +26,16 @@ to run test on application server which is running add
 to use different version of spring framework use property versions.org.springframework
 
 Examples:
+
+ -Dversion.org.springframework=4.0.2.RELEASE
  
- -Dversions.org.springframework=3.2.5.RELEASE
+ -Dversion.org.springframework=3.2.8.RELEASE
  
- -Dversions.org.springframework=3.1.3.RELEASE
+ -Dversion.org.springframework=3.1.4.RELEASE
  
- -Dversions.org.springframework=3.0.7.RELEASE
+ -Dversion.org.springframework=3.0.7.RELEASE
  
- -Dversions.org.springframework=2.5.6.SEC03
+ -Dversion.org.springframework=2.5.6.SEC03
  
  
 # Variant without dependencies in deployment #

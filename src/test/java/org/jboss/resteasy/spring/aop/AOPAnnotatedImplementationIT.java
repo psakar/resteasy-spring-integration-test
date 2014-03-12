@@ -19,6 +19,7 @@ import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -35,6 +36,7 @@ import org.junit.runner.RunWith;
  *
  *   If you use Compile Time AspectJ, then the Aspects get taken in accout even if you invoke a method from inside the same bean (this.otherMethod()).
  */
+@Ignore
 @RunWith(Arquillian.class)
 @RunAsClient
 public class AOPAnnotatedImplementationIT {

@@ -16,26 +16,22 @@
 
 		<downloadSources>true</downloadSources>
 
+		<version.cglib>2.2.2</version.cglib>
+		<version.commons-httpclient>3.1</version.commons-httpclient>
+		<version.commons-io>2.4</version.commons-io>
+		<version.junit>4.8.2</version.junit>
+		<version.maven-antrun-plugin>1.7</version.maven-antrun-plugin>
 		<version.maven-failsafe-plugin>2.15</version.maven-failsafe-plugin>
 		<version.maven-surefire-plugin>2.14.1</version.maven-surefire-plugin>
 		<version.maven-war-plugin>2.4</version.maven-war-plugin>
-
-
-		<version.junit>4.8.2</version.junit>
 		<version.log4j>1.2.16</version.log4j>
-
-		<version.org.jboss.arquillian.arquillian-bom>1.1.1.Final</version.org.jboss.arquillian.arquillian-bom>
-
-		<version.org.jboss.as.jboss-as-arquillian-container-managed>7.2.0.Final</version.org.jboss.as.jboss-as-arquillian-container-managed>
-
-		<version.commons-io>2.4</version.commons-io>
-		<version.org.jboss.resteasy>2.3.7.Final-redhat-2</version.org.jboss.resteasy>
-		<version.org.springframework>3.2.5.RELEASE</version.org.springframework>
-
-		<version.commons-httpclient>3.1</version.commons-httpclient>
-
-		<version.cglib>2.2.2</version.cglib>
 		<version.org.aspectj>1.6.11</version.org.aspectj>
+		<version.org.jboss.arquillian.arquillian-bom>1.1.1.Final</version.org.jboss.arquillian.arquillian-bom>
+		<version.org.jboss.as.jboss-as-arquillian-container-managed>7.2.0.Final</version.org.jboss.as.jboss-as-arquillian-container-managed>
+		<version.org.jboss.resteasy>2.3.8.Final-redhat-1</version.org.jboss.resteasy>
+		<version.org.springframework>3.2.8.RELEASE</version.org.springframework>
+
+
 
 		<maven-repo-as>maven-repo-as</maven-repo-as>
 		<as.distribution.groupId>org.jboss.as</as.distribution.groupId>
@@ -95,9 +91,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-		<groupId>log4j</groupId>
-		<artifactId>log4j</artifactId>
-		<version>${version.log4j}</version>
+    		<groupId>log4j</groupId>
+    		<artifactId>log4j</artifactId>
+    		<version>${version.log4j}</version>
 		</dependency>
 
 		<!-- arquillian -->
@@ -126,6 +122,7 @@
 
 	<!-- END OF test dependencies -->
 	</dependencies>
+
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
@@ -134,36 +131,18 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${version.maven-surefire-plugin}</version>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>${version.maven-failsafe-plugin}</version>
-				<configuration>
-					<skip>true</skip>
-				</configuration>
-				<executions>
-					<execution>
-						<id>surefire-it</id>
-						<phase>integration-test</phase>
-						<goals>
-							<goal>integration-test</goal>
-						</goals>
-						<configuration>
-							<skip>false</skip>
-							<systemProperties>
-								<property>
-									<name>jboss.home</name>
-									<value>${jboss.home}</value>
-								</property>
-							</systemProperties>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${version.maven-failsafe-plugin}</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.7</version>
+				<version>${version.maven-antrun-plugin}</version>
 				<executions>
 					<execution>
 						<id>display-environment</id>
@@ -186,6 +165,84 @@
 	</build>
 
 	<profiles>
+        <profile>
+            <id>standard-tests</id>
+            <activation>
+                <property>
+                    <name>!no-standard-tests</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${version.maven-failsafe-plugin}</version>
+                        <executions>
+                            <execution>
+                                <id>surefire-it</id>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                </goals>
+                                <configuration>
+                                    <includes>
+                                        <include>org/jboss/resteasy/spring/basic/**/*.java</include>
+                                    </includes>
+                                    <skip>false</skip>
+                                    <systemProperties>
+                                        <property>
+                                            <name>jboss.home</name>
+                                            <value>${jboss.home}</value>
+                                        </property>
+                                    </systemProperties>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>aop-related-tests</id>
+            <activation>
+                <property>
+                    <name>aop-related-tests</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${version.maven-failsafe-plugin}</version>
+                        <executions>
+                            <execution>
+                                <id>surefire-it</id>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                </goals>
+                                <configuration>
+                                    <includes>
+                                        <include>org/jboss/resteasy/spring/aop/**/*.java</include>
+                                    </includes>
+                                    <skip>false</skip>
+                                    <systemProperties>
+                                        <property>
+                                            <name>jboss.home</name>
+                                            <value>${jboss.home}</value>
+                                        </property>
+                                    </systemProperties>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
 		<profile>
 			<id>install-as</id>
 			<activation>
@@ -198,7 +255,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.7</version>
+						<version>${version.maven-antrun-plugin}</version>
 						<executions>
 							<execution>
 								<id>install-as</id>
@@ -290,17 +347,17 @@
 				</dependency>
 
 				<!-- Proxying related -->
-		    <dependency>
-		       <groupId>cglib</groupId>
-		       <artifactId>cglib-nodep</artifactId>
-		       <version>${version.cglib}</version>
-		    </dependency>
+    		    <dependency>
+    		       <groupId>cglib</groupId>
+    		       <artifactId>cglib-nodep</artifactId>
+    		       <version>${version.cglib}</version>
+    		    </dependency>
 
-		    <dependency>
-		       <groupId>org.springframework</groupId>
-		       <artifactId>spring-aop</artifactId>
-		       <version>${version.org.springframework}</version>
-		    </dependency>
+    		    <dependency>
+    		       <groupId>org.springframework</groupId>
+    		       <artifactId>spring-aop</artifactId>
+    		       <version>${version.org.springframework}</version>
+    		    </dependency>
 
 				<!-- AspectJ AOP related -->
 				<dependency>
@@ -380,8 +437,9 @@
 			</activation>
 
 			<properties>
-				<module.spring.slot>3.2.x</module.spring.slot>
-				<module.spring.path>${jboss.home}/modules/system/add-ons/spring/org/springframework/spring/${module.spring.slot}</module.spring.path>
+				<module.spring.version>3.2.x</module.spring.version>
+				<module.spring.slot>main</module.spring.slot><!-- beware jbossws spring integration preinstalled in default distribution expects main slot -->
+				<module.spring.path>${jboss.home}/modules/system/add-ons/spring/org/springframework/spring/${module.spring.version}</module.spring.path>
 				<version.org.aspectj>1.7.3</version.org.aspectj>
 				<version.aopalliance>1.0</version.aopalliance>
 			</properties>
@@ -392,7 +450,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.7</version>
+						<version>${version.maven-antrun-plugin}</version>
 						<executions>
 							<execution>
 								<id>install-as-module-spring-3.2.x-info</id>
@@ -427,7 +485,7 @@
 									<outputDirectory>${module.spring.path}</outputDirectory>
 									<resources>
 										<resource>
-											<directory>src/main/modules/spring/${module.spring.slot}</directory>
+											<directory>src/main/modules/spring/${module.spring.version}</directory>
 											<filtering>true</filtering>
 										</resource>
 									</resources>
@@ -561,14 +619,14 @@ Modify server configuration to automatically start snowdrop module when webservi
 				</property>
 			</activation>
 
-      <properties>
-      		<version.org.jboss.snowdrop>3.0.2.Final-redhat-1</version.org.jboss.snowdrop>
-      		<module.snowdrop.slot>3.2.x</module.snowdrop.slot>
-          <module.snowdrop.path>${jboss.home}/modules/system/add-ons/snowdrop/org/jboss/snowdrop/${module.snowdrop.slot}</module.snowdrop.path>
+            <properties>
+                <version.org.jboss.snowdrop>3.0.2.Final-redhat-1</version.org.jboss.snowdrop>
+                <module.snowdrop.slot>3.2.x</module.snowdrop.slot>
+                <module.snowdrop.path>${jboss.home}/modules/system/add-ons/snowdrop/org/jboss/snowdrop/${module.snowdrop.slot}</module.snowdrop.path>
 
-      		<!-- reference property from profile install-as-module-spring-* -->
-      		<module.snowdrop.spring-slot>${module.spring.slot}</module.snowdrop.spring-slot>
-      </properties>
+                <!-- reference property from profile install-as-module-spring-* -->
+                <module.snowdrop.spring-slot>${module.spring.slot}</module.snowdrop.spring-slot>
+            </properties>
 
 			<build>
 				<plugins>
@@ -576,7 +634,7 @@ Modify server configuration to automatically start snowdrop module when webservi
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.7</version>
+						<version>${version.maven-antrun-plugin}</version>
 						<executions>
 							<execution>
 								<id>install-as-module-snowdrop-3.2.x-info</id>
@@ -693,7 +751,7 @@ Modify server configuration to automatically start snowdrop module when webservi
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.7</version>
+						<version>${version.maven-antrun-plugin}</version>
 						<executions>
 							<execution>
 								<id>install-as-module-resteasy-spring-info</id>
